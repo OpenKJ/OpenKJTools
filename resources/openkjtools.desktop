@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=OpenKJ Tools
+Comment=Tool for managing karaoke files
+Exec=/usr/bin/OpenKJTools
+Icon=/usr/share/pixmaps/openkjtools.png
+Terminal=false
+Categories=AudioVideo;Audio;

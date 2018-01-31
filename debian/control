@@ -1,0 +1,14 @@
+Source: openkjtools
+Section: sound
+Priority: optional
+Maintainer: Isaac Lightburn <support@openkj.org>
+Build-Depends: qt5-default, qttools5-dev-tools, qtbase5-dev, qttools5-dev, qt5-qmake, debhelper (>= 9)
+Standards-Version: 3.9.8
+Homepage: https://openkj.org
+Vcs-Git: https://github.com/OpenKJ/OpenKJTools.git
+#Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/openkjtools.git
+
+Package: openkjtools
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, mp3gain, p7zip
+Description: Tool for managing karaoke files
