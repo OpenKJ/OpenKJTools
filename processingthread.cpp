@@ -344,13 +344,13 @@ void ProcessingThread::run()
         }
         emit processingFile(m_currentFile);
         qWarning() << "Processing type set to: " << processingType;
-        if (processingType == ProcessingType::REPLAY_GAIN)
+        if (processingType == ProcessingThread::REPLAY_GAIN)
             processFileRg(m_currentFile);
-        else if (processingType == ProcessingType::ZIPFIX)
+        else if (processingType == ProcessingThread::ZIPFIX)
             processFileZipFix(m_currentFile);
-        else if (processingType == ProcessingType::UNZIP)
+        else if (processingType == ProcessingThread::UNZIP)
             processFileUnzip(m_currentFile);
-        else if (processingType == ProcessingType::ZIP)
+        else if (processingType == ProcessingThread::ZIP)
             processFileZip(m_currentFile);
         emit fileProcessed();
 
