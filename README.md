@@ -1,4 +1,10 @@
 # KaraokeRG
-Tool to process mp3+g zip files through mp3gain (ReplayGain)
+Tool to manage karaoke files
 
-Note: This is very much experimental at the moment. It's just something I threw together to make my own life easier several years ago. I've imported it so I can begin working on making it useful to people in general and making it work cross platform.
+Current functionality:
+* Run replaygain analysis on all of your mp3+g zip files
+* Mass unzip audio+g zip files
+* Mass zip audio+g files to create audio+g zip files
+* Convert audio+g zip files that were compressed using DEFLATE64 to standard zips using DEFLATE to fix compatibility with OpenKJ and other hosting software
+
+Note: This is very much experimental at the moment. Do not use it on your karaoke files if you don't have a backup.
