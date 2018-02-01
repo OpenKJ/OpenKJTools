@@ -9,7 +9,7 @@ Source0:        openkjtools-0.11.0.tar.bz2
 
 BuildRequires:  qt5-qtbase-devel
 Requires:       qt5-qtbase mp3gain p7zip p7zip-plugins
-
+Obsoletes:	karaokerg
 %description
 Simple GUI tool for managing karaoke files
 
