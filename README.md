@@ -1,4 +1,4 @@
-# KaraokeRG
+# OpenKJ Tools
 Tool to manage karaoke files
 
 Current functionality:
