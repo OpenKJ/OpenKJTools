@@ -24,7 +24,12 @@ void Settings::setMp3GainPath(QString path)
 
 QString Settings::get7zipPath()
 {
+#ifdef Q_OS_WIN
+    QString appDir = QCoreApplication::applicationDirPath();
+    return settings->value("7zipPath", appDir + QDir::separator() + "7z.exe").toString();
+#else
     return settings->value("7zipPath", "/bin/7za").toString();
+#endif
 }
 
 void Settings::set7zipPath(QString path)
