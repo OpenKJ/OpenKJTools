@@ -11,8 +11,10 @@ call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %PLA
 mkdir "%project_dir%\output"
 copy "7z.exe" "%project_dir%\output\"
 copy "7z.dll" "%project_dir%\output\"
+copy "mp3gain.exe" "%project_dir%\output\"
 del "7z.exe"
 del "7z.dll"
+del "mp3gain.exe"
 
 mkdir "%project_dir%\cscrt
 7z e "%project_dir%\appveyor\cscrt.7z" -p"%cscrt_pass%" -o"%project_dir%\cscrt"

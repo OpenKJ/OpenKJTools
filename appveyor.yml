@@ -36,14 +36,17 @@ clone_folder: c:\projects\openkj
 
 install:
   - ps: |
-      Write-Host "Getting 7z.exe..." -ForegroundColor Cyan
+      Write-Host "Getting deps..." -ForegroundColor Cyan
       $exePath = "$($env:APPVEYOR_BUILD_FOLDER)/7z.exe"
       $dllPath = "$($env:APPVEYOR_BUILD_FOLDER)/7z.dll"
+      $m3gPath = "$($env:APPVEYOR_BUILD_FOLDER)/mp3gain.exe"
       $url = "https://storage.googleapis.com/okj-installer-deps/7z.exe"
       $urldll = "https://storage.googleapis.com/okj-installer-deps/7z.dll"
+      $urlmp3g = "https://storage.googleapis.com/okj-installer-deps/mp3gain.exe"
       Write-Host "Downloading..."
       (New-Object Net.WebClient).DownloadFile($url, $exePath)
       (New-Object Net.WebClient).DownloadFile($urldll, $dllPath)
+      (New-Object Net.WebClient).DownloadFile($urlmp3g, $mp3gPath)
       Write-Host "Done." -ForegroundColor Green
 build_script:
   - call "appveyor/build_windows.cmd"
