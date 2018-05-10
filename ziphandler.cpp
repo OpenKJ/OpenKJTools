@@ -97,6 +97,7 @@ bool ZipHandler::reZipUnsupported(QString filePath)
     if (!QFile::rename(filePath, filePath + ".tmp"))
     {
         qWarning() << "Unable to move original to temporary file, bailing out";
+        qWarning() << "rename(" << filePath << ", " << filePath << ".tmp)";
         return false;
     }
     if (!QFile::copy(tmpDir.path() + QDir::separator() + zipFileName, filePath))
