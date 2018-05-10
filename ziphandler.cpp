@@ -130,6 +130,12 @@ QStringList ZipHandler::getSupportedAudioExts()
     return audioExtensions;
 }
 
+void ZipHandler::close()
+{
+    if (qzFile->isOpen())
+        qzFile->close();
+}
+
 void ZipHandler::loadExtensions()
 {
     audioExtensions.append(".mp3");

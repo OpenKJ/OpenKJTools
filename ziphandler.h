@@ -55,6 +55,7 @@ public:
     bool reZipUnsupported(QString filePath);
     QString getAudioExt();
     QStringList getSupportedAudioExts();
+    void close();
 
 
 signals:

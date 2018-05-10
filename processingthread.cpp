@@ -166,24 +166,6 @@ void ProcessingThread::processFileUnzip(QString fileName)
     emit stateChanged("Checking file");
     ZipHandler zipper;
     zipper.setZipFile(fileName);
-    if (!zipper.isValidZipfile())
-    {
-        qWarning() << "File doesn't appear to be a valid zip at all! Skipping";
-        emit stateChanged("Skipping zipfile, appears to be an invalid or bad zip file!");
-        return;
-    }
-    if (!zipper.containsAudioFile())
-    {
-        qWarning() << "Zipfile missing audio file. Skipping";
-        emit stateChanged("Skipping zipfile, missing audio file.  May not be a karaoke file at all.");
-        return;
-    }
-    if (!zipper.containsCdgFile())
-    {
-        qWarning() << "Zipfile missing cdg file. Skipping";
-        emit stateChanged("Skipping file, missing audio file.  May not be a karaoke file at all.");
-        return;
-    }
     if (!zipper.compressionSupported())
     {
         qWarning() << "File compression method not supported.  Fixing.";
@@ -196,21 +178,46 @@ void ProcessingThread::processFileUnzip(QString fileName)
             qWarning() << "Unable to fix unsupported file.  Skipping";
             return;
         }
+        zipper.setZipFile(fileName);
     }
+    if (!zipper.isValidZipfile())
+    {
+        qWarning() << "File doesn't appear to be a valid zip at all! Skipping";
+        emit stateChanged("Skipping zipfile, appears to be an invalid or bad zip file!");
+        zipper.close();
+        return;
+    }
+    if (!zipper.containsAudioFile())
+    {
+        qWarning() << "Zipfile missing audio file. Skipping";
+        emit stateChanged("Skipping zipfile, missing audio file.  May not be a karaoke file at all.");
+        zipper.close();
+        return;
+    }
+    if (!zipper.containsCdgFile())
+    {
+        qWarning() << "Zipfile missing cdg file. Skipping";
+        emit stateChanged("Skipping file, missing audio file.  May not be a karaoke file at all.");
+        zipper.close();
+        return;
+    }
+
     QTemporaryDir tmpDir;
     qWarning() << "File appears to be a valid audio+g zipfile, unzipping.";
     emit stateChanged("Extracting zip file");
     if (!zipper.extractAudio(tmpDir.path()))
     {
         qWarning() << "Error extracting audio file";
+        zipper.close();
         return;
     }
     if (!zipper.extractCdg(tmpDir.path()))
     {
         qWarning() << "Error extracting cdg file";
+        zipper.close();
         return;
     }
-
+    zipper.close();
     QString zipFileBaseName = QFileInfo(fileName).completeBaseName();
     QString cdgFileName = zipFileBaseName + ".cdg";
     QString audioFileName = zipFileBaseName + zipper.getAudioExt();
