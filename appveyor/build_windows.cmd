@@ -18,30 +18,22 @@ nmake
 echo Packaging...
 cd %project_dir%\build\windows\msvc\%LONGARCH%\release\
 dir
-windeployqt OpenKJTools\release\OpenKJTools.exe
+windeployqt release\OpenKJTools.exe
 echo Signing OpenKJ-Tools binary
-signtool sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f "%project_dir%\cscrt\cscrt.pfx" /p "%pfx_pass%" OpenKJTools\release\Openkj.exe
+signtool sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f "%project_dir%\cscrt\cscrt.pfx" /p "%pfx_pass%" release\Openkj.exe
 
 echo Copying project files for archival...
-copy "%project_dir%\README.md" "OpenKJTools\release\README.md"
-copy "%project_dir%\LICENSE" "OpenKJTools\release\LICENSE.txt"
+copy "%project_dir%\README.md" "release\README.md"
+copy "%project_dir%\LICENSE" "release\LICENSE.txt"
 
 mkdir "%project_dir%\output"
 copy "%project_dir%\7z.exe" "%project_dir%\output\"
 echo Copying files for installer...
-robocopy OpenKJTools\release\ "%project_dir%\output" /E /np
+robocopy release\ "%project_dir%\output" /E /np
 del "%project_dir%\output\*.obj"
 del "%project_dir%\output\*.cpp"
 del "%project_dir%\output\*.h"
 
-
-echo Pulling gstreamer deps for installer...
-copy c:\gstreamer\1.0\%LONGARCH%\bin\*.dll "%project_dir%\output\"
-mkdir "%project_dir%\output\lib"
-mkdir "%project_dir%\output\lib\gstreamer-1.0"
-mkdir "%project_dir%\output\lib\gstreamer-1.0\validate"
-copy c:\gstreamer\1.0\%LONGARCH%\lib\gstreamer-1.0\*.dll "%project_dir%\output\lib\gstreamer-1.0\"
-copy c:\gstreamer\1.0\%LONGARCH%\lib\gstreamer-1.0\validate\*.dll "%project_dir%\output\lib\gstreamer-1.0\validate\"
 
 echo Creating installer...
 cd %project_dir%\installer\windows\%LONGARCH%\
