@@ -1,6 +1,6 @@
 image: Visual Studio 2015
 
-version: 0.11.8
+version: 0.11.9
 
 branches:
   only:
@@ -10,7 +10,7 @@ branches:
 max_jobs: 4
 
 environment:
-  OKJTVERSION: 0.11.8
+  OKJTVERSION: 0.11.9
   matrix:
   - TARGET_ARCH: x64
     QT: C:\Qt\5.10.1\msvc2015_64
@@ -37,8 +37,8 @@ clone_folder: c:\projects\openkj
 install:
   - ps: |
       Write-Host "Getting 7z.exe..." -ForegroundColor Cyan
-      $exePath = "7z.exe"
-      $dllPath = "7z.dll"
+      $exePath = "$($env:APPVEYOR_BUILD_FOLDER)/7z.exe"
+      $dllPath = "$($env:APPVEYOR_BUILD_FOLDER)/7z.dll"
       $url = "https://storage.googleapis.com/okj-installer-deps/7z.exe"
       $urldll = "https://storage.googleapis.com/okj-installer-deps/7z.dll"
       Write-Host "Downloading..."
