@@ -485,7 +485,8 @@ void ProcessingThread::processFileCaseFix(QString fileName)
     {
         emit stateChanged("Renaming file");
         qWarning() << "iFN: " << iFN << "\noFN: " << oFN << "\nRenaming to: " << QString(fileinfo.absolutePath() + QDir::separator() + oFN + "." + fileinfo.suffix());
-        QFile::rename(fileName, fileinfo.absolutePath() + QDir::separator() + oFN + "." + fileinfo.suffix());
+        QFile::rename(fileName, fileName + ".rntmp");
+        QFile::rename(fileName + ".rntmp", fileinfo.absolutePath() + QDir::separator() + oFN + "." + fileinfo.suffix());
     }
 }
 
