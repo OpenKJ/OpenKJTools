@@ -34,6 +34,7 @@ void ProcessingThread::processFileRg(QString fileName)
     {
         qWarning() << "File contains marker, already processed.  Skipping";
         emit stateChanged("Skipping file, already processed");
+        zipper.close();
         return;
     }
     qWarning() << "Processing - Extracting mp3 file";
@@ -41,6 +42,7 @@ void ProcessingThread::processFileRg(QString fileName)
     {
         qWarning() << "Bad file contents - error extracting mp3";
         emit stateChanged("Error extracting file");
+        zipper.close();
         return;
     }
     QFile::copy(tmpDir.path() + QDir::separator() + "tmp.mp3", "/storage/KaraokeRGTest/PreRG.mp3");
@@ -49,9 +51,11 @@ void ProcessingThread::processFileRg(QString fileName)
     {
         qWarning() << "Processing - Bad file contents - error extracting cdg";
         emit stateChanged("Error extracting file");
+        zipper.close();
         return;
     }
     emit stateChanged("Processing - Doing ReplayGain analasis and adjustment");
+    zipper.close();
     QString program = mp3gainPath;
     QStringList arguments;
     arguments << "-c";
