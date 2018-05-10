@@ -20,7 +20,7 @@ cd %project_dir%\build\windows\msvc\%LONGARCH%\release\
 dir
 windeployqt release\OpenKJTools.exe
 echo Signing OpenKJ-Tools binary
-signtool sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f "%project_dir%\cscrt\cscrt.pfx" /p "%pfx_pass%" release\Openkj.exe
+signtool sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f "%project_dir%\cscrt\cscrt.pfx" /p "%pfx_pass%" release\OpenKJTools.exe
 
 echo Copying project files for archival...
 copy "%project_dir%\README.md" "release\README.md"
@@ -38,8 +38,8 @@ del "%project_dir%\output\*.h"
 echo Creating installer...
 cd %project_dir%\installer\windows\%LONGARCH%\
 dir
-rem binarycreator.exe --offline-only -c config\config.xml -p packages OpenKJ-Tools-%OKJVERSION%-windows-%LONGARCH%-installer.exe
+rem binarycreator.exe --offline-only -c config\config.xml -p packages OpenKJ-Tools-%OKJTVERSION%-windows-%LONGARCH%-installer.exe
 "C:\Program Files (x86)\Inno Setup 5\iscc.exe" "%project_dir%\appveyor\openkj-tools_%LONGARCH%.iss" /O"%project_dir%/"
-move "%project_dir%\OpenKJ-Tools.exe" "%project_dir%\OpenKJ-Tools-%OKJVERSION%-%BITS%-setup.exe"
+move "%project_dir%\OpenKJ-Tools.exe" "%project_dir%\OpenKJ-Tools-%OKJTVERSION%-%BITS%-setup.exe"
 echo Signing installer...
-signtool sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f "%project_dir%\cscrt\cscrt.pfx" /p "%pfx_pass%" "%project_dir%\OpenKJ-Tools-%OKJVERSION%-%BITS%-setup.exe
+signtool sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f "%project_dir%\cscrt\cscrt.pfx" /p "%pfx_pass%" "%project_dir%\OpenKJ-Tools-%OKJTVERSION%-%BITS%-setup.exe
