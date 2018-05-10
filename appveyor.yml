@@ -1,6 +1,6 @@
 image: Visual Studio 2015
 
-version: 0.11.6
+version: 0.11.7
 
 branches:
   only:
@@ -10,7 +10,7 @@ branches:
 max_jobs: 4
 
 environment:
-  OKJTVERSION: 0.11.6
+  OKJTVERSION: 0.11.7
   matrix:
   - TARGET_ARCH: x64
     QT: C:\Qt\5.10.1\msvc2015_64
@@ -43,7 +43,7 @@ install:
       $urldll = "https://storage.googleapis.com/okj-installer-deps/7z.dll"
       Write-Host "Downloading..."
       (New-Object Net.WebClient).DownloadFile($url, $exePath)
-      (New-Object Net.WebClient).DownloadFile(&urldll, $dllPath)
+      (New-Object Net.WebClient).DownloadFile($urldll, $dllPath)
       Write-Host "Done." -ForegroundColor Green
 build_script:
   - call "appveyor/build_windows.cmd"
