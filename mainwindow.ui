@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>825</width>
-    <height>645</height>
+    <width>1081</width>
+    <height>711</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -380,7 +380,7 @@
         <item>
          <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This will attempt to rename files using standard title case rules. Note that this isn't perfect, some artist names and song titles intentionally don't use standard title case, and this tool isn't aware of all of them. If your library is currently a mess, capitalization wise, this will make it better. If your library capitalization is mostly good, this may mess up the case on some files.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This will attempt to rename files using standard title case rules. Note that this isn't perfect, some artist names and song titles intentionally don't use standard title case, and this tool isn't aware of all of them. If your library is currently a mess, capitalization wise, this will make it better. If your library capitalization is mostly good, this may mess up the case on some files. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;NOTE: &lt;/span&gt;This tool currently only works if your files are named in the format &amp;quot;songid - artist - title.zip&amp;quot; or &amp;quot;songid - title - artist.zip&amp;quot; If the songID isn't the first part, and the sections aren't separated by &amp;quot; - &amp;quot; (space dash space), It will mess up your capitalization in strange and unexpected ways.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="wordWrap">
            <bool>true</bool>
@@ -803,7 +803,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>825</width>
+     <width>1081</width>
      <height>28</height>
     </rect>
    </property>
