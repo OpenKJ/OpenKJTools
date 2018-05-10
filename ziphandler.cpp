@@ -58,6 +58,11 @@ bool ZipHandler::extractUsing7z(QString fileName, QString destDir)
 
 bool ZipHandler::reZipUnsupported(QString filePath)
 {
+    if (qzFile->isOpen())
+    {
+        qWarning() << "Releasing file handle on original zip";
+        qzFile->close();
+    }
     QString zipFileName = QFileInfo(filePath).fileName();
     QTemporaryDir tmpDir;
     if (!extractUsing7z(filePath, tmpDir.path()))
@@ -109,7 +114,7 @@ bool ZipHandler::reZipUnsupported(QString filePath)
     }
     if (QFile::exists(filePath))
     {
-        QFile::remove(filePath + ".tmp");
+        QFile::remove(tmpFilePath);
         return true;
     }
     return false;
