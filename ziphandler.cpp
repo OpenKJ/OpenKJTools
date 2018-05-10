@@ -94,10 +94,11 @@ bool ZipHandler::reZipUnsupported(QString filePath)
         return false;
     }
     createZip(tmpDir.path() + QDir::separator() + zipFileName, cdgFile, audioFile);
-    if (!QFile::rename(filePath, filePath + ".tmp"))
+    QString tmpFilePath = QString(filePath + ".tmp");
+    if (!QFile::rename(filePath, tmpFilePath))
     {
         qWarning() << "Unable to move original to temporary file, bailing out";
-        qWarning() << "rename(" << filePath << ", " << filePath << ".tmp)";
+        qWarning() << "rename(" << filePath << ", " << tmpFilePath << ")";
         return false;
     }
     if (!QFile::copy(tmpDir.path() + QDir::separator() + zipFileName, filePath))
