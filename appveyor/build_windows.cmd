@@ -27,7 +27,8 @@ copy "%project_dir%\README.md" "release\README.md"
 copy "%project_dir%\LICENSE" "release\LICENSE.txt"
 
 mkdir "%project_dir%\output"
-copy "%project_dir%\7z.exe" "%project_dir%\output\"
+copy "7z.exe" "%project_dir%\output\"
+copy "7z.dll" "%project_dir%\output\"
 echo Copying files for installer...
 robocopy release\ "%project_dir%\output" /E /np
 del "%project_dir%\output\*.obj"

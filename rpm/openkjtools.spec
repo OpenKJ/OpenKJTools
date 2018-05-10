@@ -1,11 +1,11 @@
 Name:           openkjtools
-Version:	0.11.5
+Version:	0.11.6
 Release:        1%{?dist}
 Summary:        Tool for managing karoaoke files 
 
 License:        GPL
 URL:            https://karaokerg.org
-Source0:	openkjtools-0.11.5.tar.bz2
+Source0:	openkjtools-0.11.6.tar.bz2
 
 BuildRequires:  qt5-qtbase-devel
 Requires:       qt5-qtbase mp3gain p7zip p7zip-plugins
