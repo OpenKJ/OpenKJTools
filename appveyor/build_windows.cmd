@@ -8,6 +8,12 @@ echo Set up environment...
 set PATH=%QT%\bin\;C:\Qt\Tools\QtCreator\bin\;C:\Qt\QtIFW2.0.1\bin\;%PATH%
 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %PLATFORM%
 
+mkdir "%project_dir%\output"
+copy "7z.exe" "%project_dir%\output\"
+copy "7z.dll" "%project_dir%\output\"
+del "7z.exe"
+del "7z.dll"
+
 mkdir "%project_dir%\cscrt
 7z e "%project_dir%\appveyor\cscrt.7z" -p"%cscrt_pass%" -o"%project_dir%\cscrt"
 
@@ -26,9 +32,7 @@ echo Copying project files for archival...
 copy "%project_dir%\README.md" "release\README.md"
 copy "%project_dir%\LICENSE" "release\LICENSE.txt"
 
-mkdir "%project_dir%\output"
-copy "7z.exe" "%project_dir%\output\"
-copy "7z.dll" "%project_dir%\output\"
+
 echo Copying files for installer...
 robocopy release\ "%project_dir%\output" /E /np
 del "%project_dir%\output\*.obj"
