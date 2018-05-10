@@ -322,6 +322,162 @@ void ProcessingThread::processFileZip(QString fileName)
 
 }
 
+void ProcessingThread::processFileCaseFix(QString fileName)
+{
+    emit stateChanged("Fixing case");
+    QString sep = " - ";
+    int sidSection = 0;
+    QFileInfo fileinfo(fileName);
+    QString iFN = fileinfo.completeBaseName();
+    QStringList nocaps;
+    nocaps << "a";
+    nocaps << "an";
+    nocaps << "the";
+    nocaps << "at";
+    nocaps << "by";
+    nocaps << "for";
+    nocaps << "in";
+    nocaps << "of";
+    nocaps << "on";
+    nocaps << "to";
+    nocaps << "up";
+    nocaps << "and";
+    nocaps << "as";
+    nocaps << "but";
+    nocaps << "or";
+    nocaps << "nor";
+
+    QStringList capsafter;
+    capsafter << "Mc";
+    capsafter << "O'";
+    capsafter << "(";
+//    capsafter << "-";
+//    capsafter << ".";
+
+    QStringList exceptions;
+    exceptions << "ACDC";
+    exceptions << "AC-DC";
+    exceptions << "Rag'n'Bone";
+    exceptions << "3LW";
+    exceptions << "XTC";
+    exceptions << "MC";
+    exceptions << "DJ";
+    exceptions << "SZA";
+    exceptions << "YOLO";
+    exceptions << "24K";
+    exceptions << "...Ready";
+    exceptions << "FourFiveSeconds";
+    exceptions << "II";
+    exceptions << "II)";
+    exceptions << "ZZ";
+    exceptions << "'N";
+    exceptions << "KC";
+    exceptions << "PJ";
+    exceptions << "'Til";
+    exceptions << "NIN";
+    exceptions << "OMC";
+   // exceptions << "LA";
+    exceptions << "UB40";
+
+    //exceptions << "s";
+
+    // fix common naming problems before processing
+    QString pfFN = iFN;
+    pfFN.replace(" let s ", " let's ", Qt::CaseInsensitive);
+    pfFN.replace(" I M ",  " I'm ", Qt::CaseInsensitive);
+    pfFN.replace(" that s ", " that's ", Qt::CaseInsensitive);
+    pfFN.replace(" don t ", " don't ", Qt::CaseInsensitive);
+    pfFN.replace(" won t ", " won't ", Qt::CaseInsensitive);
+    pfFN.replace(" here s ", " here's ", Qt::CaseInsensitive);
+    pfFN.replace(" ex s ", " ex's ", Qt::CaseInsensitive);
+    pfFN.replace(" oh s ", " oh's ", Qt::CaseInsensitive);
+    pfFN.replace(" can t ", " can't ", Qt::CaseInsensitive);
+    pfFN.replace(" it s ", " it's ", Qt::CaseInsensitive);
+    pfFN.replace(" hadn t ", " hadn't ", Qt::CaseInsensitive);
+    pfFN.replace(" we re ", " we're ", Qt::CaseInsensitive);
+    pfFN.replace(" donesn t ", " donesn't ", Qt::CaseInsensitive);
+    pfFN.replace(" you s ", " you's ", Qt::CaseInsensitive);
+
+
+
+
+
+    QStringList sections = pfFN.split(" - ");
+    QString oFN;
+
+    for (int s=0; s < sections.size(); s++)
+    {
+
+        QStringList parts = sections.at(s).split(" ", QString::SkipEmptyParts);
+        QString oPart;
+        for (int i=0; i < parts.size(); i++)
+        {
+            if (s == sidSection)
+            {
+                if (s != 0)
+                    oFN += " - ";
+                oFN += parts.at(i).toUpper();
+                continue;
+            }
+            QString part = parts.at(i);
+            bool match = false;
+            for (int e=0; e < exceptions.size(); e++)
+            {
+                if (exceptions.at(e).toLower() == part.toLower())
+                {
+                    if (i != 0)
+                        oPart += " ";
+                    oPart += exceptions.at(e);
+                    match = true;
+                    break;
+                }
+            }
+            if (match)
+                continue;
+            part = part.toLower();
+            if ((nocaps.contains(part)) && (i != 0) && (i != parts.size() - 1))
+            {
+                if (i != 0)
+                    oPart += " ";
+                oPart += part;
+                continue;
+            }
+            part.replace(0,1,part.at(0).toUpper());
+            for (int j=0; j < capsafter.size(); j++)
+            {
+                if ((part.startsWith(capsafter.at(j))) && (part.size() > capsafter.at(j).size()))
+                {
+                    part.replace(capsafter.at(j).size(), 1, part.at(capsafter.at(j).size()).toUpper());
+                }
+
+            }
+            for (int z=0; z < part.size(); z++)
+            {
+                if (z < part.size() - 1)
+                {
+                    if ((part.at(z) == QString(".")) || (part.at(z) == QString("-")))
+                    {
+                        QString curLetter = part.at(z + 1);
+                        part.replace(z + 1, 1, curLetter.toUpper());
+                    }
+                }
+            }
+            if (i != 0)
+                oPart += " ";
+            oPart += part;
+        }
+        if (s != 0)
+            oFN += " - ";
+        oFN += oPart;
+    }
+    if (iFN != oFN)
+    {
+        emit stateChanged("Renaming file");
+        qWarning() << "iFN: " << iFN << "\noFN: " << oFN << "\nRenaming to: " << QString(fileinfo.absolutePath() + QDir::separator() + oFN + "." + fileinfo.suffix());
+        QFile::rename(fileName, fileinfo.absolutePath() + QDir::separator() + oFN + "." + fileinfo.suffix());
+    }
+}
+
 
 QMutex mutex;
 void ProcessingThread::run()
@@ -343,7 +499,6 @@ void ProcessingThread::run()
             return;
         }
         emit processingFile(m_currentFile);
-        qWarning() << "Processing type set to: " << processingType;
         if (processingType == ProcessingThread::REPLAY_GAIN)
             processFileRg(m_currentFile);
         else if (processingType == ProcessingThread::ZIPFIX)
@@ -352,6 +507,8 @@ void ProcessingThread::run()
             processFileUnzip(m_currentFile);
         else if (processingType == ProcessingThread::ZIP)
             processFileZip(m_currentFile);
+        else if (processingType == ProcessingThread::CASEFIX)
+            processFileCaseFix(m_currentFile);
         emit fileProcessed();
 
     }

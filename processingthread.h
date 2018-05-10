@@ -19,9 +19,10 @@ private:
     void processFileZipFix(QString fileName);
     void processFileUnzip(QString fileName);
     void processFileZip(QString fileName);
+    void processFileCaseFix(QString fileName);
 
 public:
-    enum ProcessingType{REPLAY_GAIN=0,UNZIP,ZIP,ZIPFIX,RECOMPRESS};
+    enum ProcessingType{REPLAY_GAIN=0,UNZIP,ZIP,ZIPFIX,RECOMPRESS,CASEFIX};
     explicit ProcessingThread(ProcessingType type, QObject *parent = 0);
     void setFiles(QStringList *files);
     void run();

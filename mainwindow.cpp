@@ -115,6 +115,8 @@ void MainWindow::on_btnStart_clicked()
         processingType = ProcessingThread::ZIPFIX;
     if (ui->tabWidget->currentIndex() == 2)
         processingType = ProcessingThread::UNZIP;
+    if (ui->tabWidget->currentIndex() == 4)
+        processingType = ProcessingThread::CASEFIX;
     if (ui->tabWidget->currentIndex() == 1)
     {
         fileExt = ".cdg";
@@ -242,7 +244,7 @@ void MainWindow::threadAborted()
 
 void MainWindow::fileProcessed()
 {
-    qWarning() << "MainWindow received signal fileProcessed()";
+   // qWarning() << "MainWindow received signal fileProcessed()";
     m_numProcessed++;
     ui->progressBar->setValue(m_numProcessed);
 }
