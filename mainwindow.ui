@@ -405,6 +405,19 @@
      </widget>
     </item>
     <item>
+     <widget class="QLabel" name="labelAction">
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="text">
+       <string>Current Action: None</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QProgressBar" name="progressBar">
       <property name="value">
        <number>0</number>
@@ -429,7 +442,10 @@
           </sizepolicy>
          </property>
          <property name="frameShape">
-          <enum>QFrame::Box</enum>
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
          </property>
          <layout class="QFormLayout" name="formLayout">
           <property name="labelAlignment">
@@ -511,7 +527,10 @@
           </sizepolicy>
          </property>
          <property name="frameShape">
-          <enum>QFrame::Box</enum>
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
          </property>
          <layout class="QFormLayout" name="formLayout_6">
           <property name="labelAlignment">
@@ -593,7 +612,10 @@
           </sizepolicy>
          </property>
          <property name="frameShape">
-          <enum>QFrame::Box</enum>
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
          </property>
          <layout class="QFormLayout" name="formLayout_7">
           <property name="labelAlignment">
@@ -675,7 +697,10 @@
           </sizepolicy>
          </property>
          <property name="frameShape">
-          <enum>QFrame::Box</enum>
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
          </property>
          <layout class="QFormLayout" name="formLayout_5">
           <property name="labelAlignment">

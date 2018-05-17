@@ -110,17 +110,30 @@ void MainWindow::on_btnStart_clicked()
     QString fileExt = ".zip";
     ProcessingThread::ProcessingType processingType;
     if (ui->tabWidget->currentIndex() == 0)
+    {
         processingType = ProcessingThread::REPLAY_GAIN;
+        ui->labelAction->setText("Current Action: KaroakeRG");
+    }
     if (ui->tabWidget->currentIndex() == 3)
+    {
         processingType = ProcessingThread::ZIPFIX;
+        ui->labelAction->setText("Current Action: ZipFix");
+    }
     if (ui->tabWidget->currentIndex() == 2)
+    {
         processingType = ProcessingThread::UNZIP;
+        ui->labelAction->setText("Current Action: Unzip");
+    }
     if (ui->tabWidget->currentIndex() == 4)
+    {
         processingType = ProcessingThread::CASEFIX;
+        ui->labelAction->setText("Current Action: CaseFix");
+    }
     if (ui->tabWidget->currentIndex() == 1)
     {
         fileExt = ".cdg";
         processingType = ProcessingThread::ZIP;
+        ui->labelAction->setText("Current Action: Zip");
     }
     if (!QFile::exists(settings->mp3GainPath()))
     {
@@ -219,6 +232,8 @@ void MainWindow::threadDone()
         ui->labelStatus2_2->setText("N/A");
         ui->labelStatus3_2->setText("N/A");
         ui->labelStatus4_2->setText("N/A");
+        ui->labelAction->setText("Current Action: None");
+
     }
 }
 
