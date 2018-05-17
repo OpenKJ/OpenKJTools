@@ -11,8 +11,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = OpenKJTools
 TEMPLATE = app
 
+win32: RC_ICONS = resources/openkjtools.ico
+
 # Populate version with version from git describe
-VERSION = 1.0.7
+VERSION = 1.0.8
 message($$VERSION)
 DEFINES += GIT_VERSION=\\"\"$$VERSION\\"\"
 QMAKE_TARGET_COMPANY = OpenKJ.org
