@@ -461,10 +461,13 @@ void ProcessingThread::processFileCaseFix(QString fileName)
             part = part.toLower();
             if ((nocaps.contains(part)) && (i != 0) && (i != parts.size() - 1))
             {
-                if (i != 0)
-                    oPart += " ";
-                oPart += part;
-                continue;
+                if (!parts.at(i + 1).startsWith("(") && !parts.at(i + 1).startsWith("["))
+                {
+                    if (i != 0)
+                        oPart += " ";
+                    oPart += part;
+                    continue;
+                }
             }
             part.replace(0,1,part.at(0).toUpper());
             for (int j=0; j < capsafter.size(); j++)
