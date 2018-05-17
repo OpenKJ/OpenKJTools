@@ -251,12 +251,25 @@ void ProcessingThread::processFileUnzip(QString fileName)
     {
         if (!QFile::remove(fileName))
         {
-            qWarning() << "Unable to remove original zip file. Bailing out.";
-            return;
+            // May be a lagged out file lock on remote samba shares, sleep a bit and try again...
+            emit stateChanged("Deleting original file failed, sleeping a bit and trying again in case of stale file locks...");
+            this->msleep(1000);
+            if (!QFile::remove(fileName))
+            {
+                qWarning() << "Unable to remove original zip file. Bailing out.";
+                emit stateChanged("Delete failed!");
+                return;
+            }
+            else
+            {
+                qWarning() << "Process completed successfully!";
+                emit stateChanged("Done!");
+            }
         }
         else
         {
             qWarning() << "Process completed successfully!";
+            emit stateChanged("Done!");
         }
     }
 }

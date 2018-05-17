@@ -73,7 +73,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnBrowse_clicked()
 {
-    QString dirPath = QFileDialog::getExistingDirectory(this);
+    QString dirPath = QFileDialog::getExistingDirectory(this, "Select directory to process", settings->lastPath());
     if (dirPath != "")
     {
         m_path = dirPath;

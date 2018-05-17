@@ -12,7 +12,7 @@ TARGET = OpenKJTools
 TEMPLATE = app
 
 # Populate version with version from git describe
-VERSION = 1.0.5
+VERSION = 1.0.6
 message($$VERSION)
 DEFINES += GIT_VERSION=\\"\"$$VERSION\\"\"
 QMAKE_TARGET_COMPANY = OpenKJ.org
