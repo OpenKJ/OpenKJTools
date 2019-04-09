@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network
 
 TARGET = OpenKJTools
 TEMPLATE = app
@@ -14,7 +14,7 @@ TEMPLATE = app
 win32: RC_ICONS = resources/openkjtools.ico
 
 # Populate version with version from git describe
-VERSION = 1.0.9
+VERSION = 1.0.10
 message($$VERSION)
 DEFINES += GIT_VERSION=\\"\"$$VERSION\\"\"
 QMAKE_TARGET_COMPANY = OpenKJ.org
@@ -33,14 +33,16 @@ SOURCES += main.cpp\
     ziphandler.cpp \
     miniz.c \
     settings.cpp \
-    dlgsettings.cpp
+    dlgsettings.cpp \
+    songdbapi.cpp
 
 HEADERS  += mainwindow.h \
     processingthread.h \
     ziphandler.h \
     miniz.h \
     settings.h \
-    dlgsettings.h
+    dlgsettings.h \
+    songdbapi.h
 
 FORMS    += mainwindow.ui \
     dlgsettings.ui
