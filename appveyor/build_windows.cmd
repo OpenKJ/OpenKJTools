@@ -42,7 +42,7 @@ robocopy release\ "%project_dir%\output" /E /np
 del "%project_dir%\output\*.obj"
 del "%project_dir%\output\*.cpp"
 del "%project_dir%\output\*.h"
-7z e "%project_dir%\appveyor\ffmpeg-win-32.zip -o"%project_dir%\output\"
+7z e "%project_dir%\ffmpeg-win-32.zip -o"%project_dir%\output\"
 
 
 echo Creating installer...
