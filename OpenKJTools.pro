@@ -14,7 +14,7 @@ TEMPLATE = app
 win32: RC_ICONS = resources/openkjtools.ico
 
 # Populate version with version from git describe
-VERSION = 1.0.12
+VERSION = 1.0.13
 message($$VERSION)
 DEFINES += GIT_VERSION=\\"\"$$VERSION\\"\"
 QMAKE_TARGET_COMPANY = OpenKJ.org
