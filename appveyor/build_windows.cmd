@@ -16,6 +16,10 @@ del "7z.exe"
 del "7z.dll"
 del "mp3gain.exe"
 
+echo Decompressing ffmpeg
+7z e ffmpeg-win-32.zip -o"%project_dir%\output\ffmpeg"
+
+
 mkdir "%project_dir%\cscrt
 7z e "%project_dir%\appveyor\cscrt.7z" -p"%cscrt_pass%" -o"%project_dir%\cscrt"
 
@@ -35,9 +39,6 @@ signtool sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f "%proje
 echo Copying project files for archival...
 copy "%project_dir%\README.md" "release\README.md"
 copy "%project_dir%\LICENSE" "release\LICENSE.txt"
-echo "Extracting ffmpeg"
-mkdir "%project_dir%\release\ffmpeg"
-7z e "%project_dir%\ffmpeg-win-32.zip -o"%project_dir%\release\ffmpeg"
 
 echo Copying files for installer...
 robocopy release\ "%project_dir%\output" /E /np
