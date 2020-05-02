@@ -36,6 +36,7 @@ echo Copying project files for archival...
 copy "%project_dir%\README.md" "release\README.md"
 copy "%project_dir%\LICENSE" "release\LICENSE.txt"
 echo "Extracting ffmpeg"
+mkdir "%project_dir%\release\ffmpeg"
 7z e "%project_dir%\ffmpeg-win-32.zip -o"%project_dir%\release\ffmpeg"
 
 echo Copying files for installer...
