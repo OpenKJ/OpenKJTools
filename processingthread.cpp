@@ -506,6 +506,189 @@ void ProcessingThread::processFileCaseFix(QString fileName)
     }
 }
 
+void ProcessingThread::processFileCdg2Mp4(QString fileName)
+{
+    if (fileName.endsWith(".cdg", Qt::CaseInsensitive))
+    {
+        ZipHandler zipper;
+        emit stateChanged("Searching for matching audio file");
+        if (!QFile::exists(fileName))
+        {
+            qWarning() << "CDG file doesn't exist, bailing out";
+            return;
+        }
+        QString audioExt;
+        QStringList audioExts = zipper.getSupportedAudioExts();
+        QString path = QFileInfo(fileName).absolutePath();
+        QString baseName = QFileInfo(fileName).completeBaseName();
+        QString audioFile;
+        for (int i=0; i < audioExts.size(); i++)
+        {
+            if (QFile::exists(path + QDir::separator() + baseName + audioExts.at(i)))
+            {
+                qWarning() << "Audio file found, continuing.";
+                audioFile = path + QDir::separator() + baseName + audioExts.at(i);
+                break;
+            }
+        }
+        if (audioFile == "")
+        {
+            qWarning() << "Matching audio file not found, bailing out";
+            return;
+        }
+        QString mp4file = path + QDir::separator() + baseName + ".mp4";
+        convertMp3g2Mp4(fileName, audioFile, mp4file);
+    }
+    else if (fileName.endsWith(".zip", Qt::CaseInsensitive))
+    {
+
+
+
+
+
+        qWarning() << this->objectName() << " - Processing - File: " << fileName;
+        emit stateChanged("Checking file");
+        ZipHandler zipper;
+        zipper.setZipFile(fileName);
+        if (!zipper.compressionSupported())
+        {
+            qWarning() << this->objectName() << " - File compression method not supported.  Fixing.";
+            emit stateChanged("File compression method not supported.  Fixing before continuing.");
+            zipper.setReplaceFnsWithZipFn(true);
+            zipper.setCompressionLevel(settings->zipCompressionLevel());
+            if (!zipper.reZipUnsupported(fileName))
+            {
+                emit stateChanged("Unable to fix unsupported file.  Skipping.");
+                qWarning() << this->objectName() << " - Unable to fix unsupported file.  Skipping";
+                return;
+            }
+            zipper.setZipFile(fileName);
+        }
+        if (!zipper.isValidZipfile())
+        {
+            qWarning() << this->objectName() << " - File doesn't appear to be a valid zip at all! Skipping";
+            emit stateChanged("Skipping zipfile, appears to be an invalid or bad zip file!");
+            zipper.close();
+            return;
+        }
+        if (!zipper.containsAudioFile())
+        {
+            qWarning() << this->objectName() << " - Zipfile missing audio file. Skipping";
+            emit stateChanged("Skipping zipfile, missing audio file.  May not be a karaoke file at all.");
+            zipper.close();
+            return;
+        }
+        if (!zipper.containsCdgFile())
+        {
+            qWarning() << this->objectName() << " - Zipfile missing cdg file. Skipping";
+            emit stateChanged("Skipping file, missing audio file.  May not be a karaoke file at all.");
+            zipper.close();
+            return;
+        }
+
+        QTemporaryDir tmpDir;
+        qWarning() << this->objectName() << " - File appears to be a valid audio+g zipfile, unzipping.";
+        emit stateChanged("Extracting zip file");
+        if (!zipper.extractAudio(tmpDir.path()))
+        {
+            qWarning() << this->objectName() << " - Error extracting audio file";
+            zipper.close();
+            return;
+        }
+        if (!zipper.extractCdg(tmpDir.path()))
+        {
+            qWarning() << this->objectName() << " - Error extracting cdg file";
+            zipper.close();
+            return;
+        }
+        zipper.close();
+        QString zipFileBaseName = QFileInfo(fileName).completeBaseName();
+        QString cdgFileName = zipFileBaseName + ".cdg";
+        QString audioFileName = zipFileBaseName + zipper.getAudioExt();
+        QString destCdg = tmpDir.path() + QDir::separator() + cdgFileName;
+        QString destAud = tmpDir.path() + QDir::separator() + audioFileName;
+        if (QFile::exists(destCdg) || QFile::exists(destAud))
+        {
+            qWarning() << this->objectName() << " - Found existing cdg or mp3 file in the destination dir, bailing out";
+            return;
+        }
+        if (!QFile::copy(tmpDir.path() + QDir::separator() + "tmp.cdg", destCdg))
+        {
+            qWarning() << this->objectName() << " - Error copying cdg file to destination dir, bailing out";
+            return;
+        }
+        if (!QFile::copy(tmpDir.path() + QDir::separator() + "tmp" + zipper.getAudioExt(), destAud))
+        {
+            qWarning() << this->objectName() << " - Error copying audio file to the destination dir, bailing out";
+            return;
+        }
+        if (!QFile::exists(destCdg) || !QFile::exists(destAud))
+        {
+            qWarning() << this->objectName() << " - Destination cdg or audio file doesn't exist, something went wrong!  Bailing out";
+            return;
+        }
+
+                QString path = QFileInfo(fileName).absolutePath();
+                QString baseName = QFileInfo(fileName).completeBaseName();
+
+                QString mp4file = path + QDir::separator() + baseName + ".mp4";
+                convertMp3g2Mp4(destCdg, destAud, mp4file);
+    }
+}
+
+bool ProcessingThread::convertMp3g2Mp4(QString cdgFile, QString mp3File, QString mp4file)
+{
+    emit stateChanged("Converting to mp4...");
+    qWarning() << this->objectName() << " - Converting " << cdgFile << " and " << mp3File << " to " << mp4file;
+
+    QProcess *process = new QProcess(this);
+    QStringList arguments;
+    arguments << "-n";
+    arguments << "-itsoffset";
+    arguments << "0.5";
+    arguments << "-i";
+    arguments << cdgFile;
+    arguments << "-i";
+    arguments << mp3File;
+    arguments << "-s";
+    arguments << "300x216";
+    arguments << "-c:a";
+    arguments << "copy";
+    arguments << "-r";
+    arguments << "24";
+    arguments << "-c:v";
+    arguments << "libx264";
+    arguments << "-crf";
+    arguments << "28";
+    arguments << "-preset";
+    arguments << "fast";
+    arguments << "-tune";
+    arguments << "animation";
+    arguments << "-map";
+    arguments << "0:0";
+    arguments << "-map";
+    arguments << "1:0";
+    arguments << mp4file;
+
+    process->start(settings->ffmpegPath(), arguments);
+    process->waitForFinished();
+    qWarning() << process->readAllStandardOutput();
+    qWarning() << process->readAllStandardError();
+    if (process->exitCode() != 0)
+    {
+        emit stateChanged("Conversion FAILED!");
+        qWarning() << this->objectName() << " - Conversion FAILED!";
+        return false;
+    }
+    else
+    {
+        qWarning() << this->objectName() << " - Conversion completed successfully";
+        emit stateChanged("Conversion complete");
+        return true;
+    }
+
+}
+
 
 QMutex mutex;
 void ProcessingThread::run()
@@ -537,6 +720,8 @@ void ProcessingThread::run()
             processFileZip(m_currentFile);
         else if (processingType == ProcessingThread::CASEFIX)
             processFileCaseFix(m_currentFile);
+        else if (processingType == ProcessingThread::CDG2MP4)
+            processFileCdg2Mp4(m_currentFile);
         emit fileProcessed();
 
     }

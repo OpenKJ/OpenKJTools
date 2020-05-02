@@ -10,6 +10,7 @@ DlgSettings::DlgSettings(QWidget *parent) :
     settings = new Settings(this);
     ui->lblMp3GainPath->setText(settings->mp3GainPath());
     ui->label7zipPath->setText(settings->get7zipPath());
+    ui->labelFfmpegPath->setText(settings->ffmpegPath());
 }
 
 DlgSettings::~DlgSettings()
@@ -34,5 +35,15 @@ void DlgSettings::on_pushButton7zipBrowse_clicked()
     {
         settings->set7zipPath(fileName);
         ui->label7zipPath->setText(fileName);
+    }
+}
+
+void DlgSettings::on_pushButtonFfmpegBrowse_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("ffmpeg executable"), "", tr("All Files (*)"));
+    if (fileName != "")
+    {
+        settings->setFfmpegPath(fileName);
+        ui->labelFfmpegPath->setText(fileName);
     }
 }

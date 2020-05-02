@@ -38,6 +38,11 @@ private:
     ProcessingThread *m_thread2;
     ProcessingThread *m_thread3;
     ProcessingThread *m_thread4;
+    ProcessingThread *m_thread5;
+    ProcessingThread *m_thread6;
+    ProcessingThread *m_thread7;
+    ProcessingThread *m_thread8;
+
     int m_numProcessed;
     int m_threads;
     int m_threadsDone;

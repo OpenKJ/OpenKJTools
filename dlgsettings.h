@@ -21,6 +21,8 @@ private slots:
 
     void on_pushButton7zipBrowse_clicked();
 
+    void on_pushButtonFfmpegBrowse_clicked();
+
 private:
     Ui::DlgSettings *ui;
     Settings *settings;

@@ -37,6 +37,21 @@ void Settings::set7zipPath(QString path)
     settings->setValue("7zipPath", path);
 }
 
+QString Settings::ffmpegPath()
+{
+#ifdef Q_OS_WIN
+    QString appDir = QCoreApplication::applicationDirPath();
+    return settings->value("ffmpegPath", appDir + QDir::separator() + "ffmpeg" + QDir::separator() + "ffmpeg.exe").toString();
+#else
+    return settings->value("ffmpegPath", "/usr/bin/ffmpeg").toString();
+#endif
+}
+
+void Settings::setFfmpegPath(QString path)
+{
+    settings->setValue("ffmpegPath", path);
+}
+
 bool Settings::forceReprocessing()
 {
     return settings->value("forceReprocessing", false).toBool();

@@ -15,6 +15,8 @@ public:
     void setMp3GainPath(QString path);
     QString get7zipPath();
     void set7zipPath(QString path);
+    QString ffmpegPath();
+    void setFfmpegPath(QString path);
     bool forceReprocessing();
     void setForceReprocessing(bool enabled);
     int zipCompressionLevel();

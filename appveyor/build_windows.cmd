@@ -19,6 +19,8 @@ del "mp3gain.exe"
 mkdir "%project_dir%\cscrt
 7z e "%project_dir%\appveyor\cscrt.7z" -p"%cscrt_pass%" -o"%project_dir%\cscrt"
 
+
+
 echo Building OpenKJ-Tools...
 qmake CONFIG-=debug CONFIG+=release
 nmake
@@ -40,6 +42,7 @@ robocopy release\ "%project_dir%\output" /E /np
 del "%project_dir%\output\*.obj"
 del "%project_dir%\output\*.cpp"
 del "%project_dir%\output\*.h"
+7z e "%project_dir%\appveyor\ffmpeg-win-32.zip -o"%project_dir%\output\"
 
 
 echo Creating installer...
