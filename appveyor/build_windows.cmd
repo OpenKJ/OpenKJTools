@@ -35,14 +35,15 @@ signtool sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f "%proje
 echo Copying project files for archival...
 copy "%project_dir%\README.md" "release\README.md"
 copy "%project_dir%\LICENSE" "release\LICENSE.txt"
-
+echo "Extracting ffmpeg"
+7z e "%project_dir%\ffmpeg-win-32.zip -o"%project_dir%\release\ffmpeg"
 
 echo Copying files for installer...
 robocopy release\ "%project_dir%\output" /E /np
 del "%project_dir%\output\*.obj"
 del "%project_dir%\output\*.cpp"
 del "%project_dir%\output\*.h"
-7z e "%project_dir%\ffmpeg-win-32.zip -o"%project_dir%\output\"
+
 
 
 echo Creating installer...
