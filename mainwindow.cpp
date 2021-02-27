@@ -102,6 +102,11 @@ void MainWindow::getFiles(QString fileExt)
                 if (filename.endsWith("cdg", Qt::CaseInsensitive) || filename.endsWith("zip", Qt::CaseInsensitive))
                     m_files->append(filename);
             }
+            else if (fileExt == "zipandmp4")
+            {
+                if (filename.endsWith("mp4", Qt::CaseInsensitive) || filename.endsWith("zip", Qt::CaseInsensitive))
+                    m_files->append(filename);
+            }
             else
             {
                 if (filename.endsWith(fileExt,Qt::CaseInsensitive))
@@ -130,6 +135,10 @@ void MainWindow::on_btnStart_clicked()
             msgBox.setInformativeText("If you don't already have it installed, please install it on your sysetm.  It is required for the ReplayGain functionality");
             msgBox.exec();
             return;
+        }
+        if (settings->mp3GainPath().endsWith("aacgain"))
+        {
+            fileExt = "zipandmp4";
         }
         processingType = ProcessingThread::REPLAY_GAIN;
         ui->labelAction->setText("Current Action: KaroakeRG");

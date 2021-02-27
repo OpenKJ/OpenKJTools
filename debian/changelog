@@ -1,3 +1,9 @@
+openkjtools (1.0.18-1~xenial) xenial; urgency=medium
+
+  * Autobuild from git commit
+
+ -- Isaac Lightburn <lightburnisaac@psychotic.hm.hozed.net>  Sat, 27 Feb 2021 16:08:24 -0600
+
 openkjtools (1.0.17-1~xenial) xenial; urgency=medium
 
   * Autobuild from git commit

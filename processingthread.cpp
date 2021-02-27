@@ -23,6 +23,29 @@ void ProcessingThread::setFiles(QStringList *files)
 
 void ProcessingThread::processFileRg(QString fileName)
 {
+    if (fileName.endsWith("mp4", Qt::CaseInsensitive))
+    {
+        qWarning() << "Processing - mp4 file: " << fileName;
+        QString program = mp3gainPath;
+        QStringList arguments;
+        arguments << "-c";
+        arguments << "-r";
+        arguments << "-T";
+        arguments << "-s" << "r";
+        arguments << fileName;
+        emit stateChanged("Processing - Doing ReplayGain analasis and adjustment");
+        QProcess process;
+        process.start(program, arguments);
+        process.waitForFinished();
+        int exitCode = process.exitCode();
+        if (exitCode != 0)
+        {
+            qWarning() << "Error occurred while running aacgain, aborting";
+            return;
+        }
+        emit stateChanged("Idle");
+        return;
+    }
     qWarning() << "Processing - File: " << fileName;
     QFileInfo info(fileName);
     QString baseName = info.completeBaseName();
